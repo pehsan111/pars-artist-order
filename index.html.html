@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرم سفارش آنلاین پارس آرتیست</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Homa', 'Mitra', 'IRANSans', Tahoma, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+        }
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #d9d9d9;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            padding: 32px 40px 26px;
+            text-align: center;
+            color: white;
+            border-bottom: 5px solid #5e7a3d;
+        }
+        .logo {
+            width: 200px;
+            max-width: 80%;
+            background: white;
+            border-radius: 12px;
+            margin: 0 auto 18px;
+            padding: 12px 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+        }
+        .logo img { width: 100%; height: auto; display: block; }
+        .header h1 {
+            font-size: 34px;
+            font-weight: 700;
+            color: #ffffff;
+            font-family: 'Mitra', 'Homa', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .header p { font-size: 13px; opacity: 0.85; margin-top: 4px; color: #d0d0d0; }
+        .form-body { padding: 30px 40px 36px; }
+        .section {
+            margin-bottom: 26px;
+            background: #fafbfc;
+            border-radius: 14px;
+            padding: 22px 24px;
+            border: 1px solid #e0e0e0;
+            border-right: 4px solid #c9b654;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e6ea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 6px;
+        }
+        .optional { color: #888; font-size: 12px; font-weight: 400; margin-right: 4px; }
+        .required { color: #d9534f; margin-right: 2px; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            font-size: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .form-group select,
+        .form-group select option {
+            font-family: 'Mitra', 'Homa', Tahoma, sans-serif;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #5e7a3d;
+            box-shadow: 0 0 0 3px rgba(94,122,61,0.2);
+        }
+        .form-group select:disabled {
+            background: #f0f0f0;
+            color: #999;
+            cursor: not-allowed;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .product-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #d8d8d8;
+        }
+        .product-row select, .product-row input {
+            padding: 9px 12px;
+            font-size: 14px;
+        }
+        .product-row select,
+        .product-row select option {
+            font-family: 'Mitra', 'Homa', Tahoma, sans-serif;
+            font-size: 18px;
+        }
+        .btn-remove {
+            background: #d9534f;
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .btn-remove:hover { background: #c9302c; transform: scale(1.05); }
+        .btn-remove svg { width: 20px; height: 20px; fill: white; }
+        .btn-add {
+            background: #556b2f;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .btn-preview {
+            background: #6b6b6b;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .btn-preview:hover { background: #4a4a4a; }
+        .btn-submit {
+            background: linear-gradient(135deg, #c9b654, #b3a13e);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(201,182,84,0.35);
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .btn-submit:hover { transform: translateY(-2px); }
+        .message {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .message.success { background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; display: block; }
+        .message.error { background: #f2dede; color: #a94442; border: 1px solid #ebccd1; display: block; }
+        .footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            background: #fafafa;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 0;
+            border-top: 5px solid #5e7a3d;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            background: #000000 !important;
+            color: white !important;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            color: #ffffff !important;
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .modal-close {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .modal-body { padding: 20px 24px; }
+        .preview-info { margin-bottom: 16px; }
+        .preview-info p { font-size: 14px; margin-bottom: 4px; color: #495057; }
+        .preview-info strong { color: #4a4a4a; }
+        .preview-products {
+            background: #fafbfc;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+        }
+        .preview-products h4 {
+            font-size: 15px;
+            color: #4a4a4a;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e6ea;
+        }
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 6px;
+            border-bottom: 1px dashed #e0e0e0;
+            font-size: 14px;
+        }
+        .preview-item:last-child { border-bottom: none; }
+        .preview-item .item-name { color: #495057; flex: 1; }
+        .preview-item .item-qty { color: #5e7a3d; font-weight: 700; }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 24px 20px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .btn-submit { margin-top: 0; }
+        .btn-print {
+            background: #556b2f;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Mitra', 'Homa', sans-serif;
+        }
+        .btn-print:hover { background: #445a24; }
+        .thanks-modal { text-align: center; }
+        .thanks-icon { font-size: 64px; margin-bottom: 10px; }
+        .thanks-title { font-size: 24px; font-weight: 700; color: #5e7a3d; margin-bottom: 14px; font-family: 'Mitra', 'Homa', sans-serif; }
+        .thanks-text { font-size: 15px; color: #495057; line-height: 1.9; padding: 0 10px; }
+        .thanks-date { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e9ecef; font-size: 13px; color: #6c757d; font-weight: 600; }
+        @media print {
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%;
+                padding: 20px;
+                background: white;
+                color: black;
+            }
+            .print-area .no-print { display: none; }
+            .no-print { display: none !important; }
+        }
+        @media (max-width: 600px) {
+            .form-body { padding: 20px; }
+            .header { padding: 24px 20px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .product-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>پارس آرتیست</h1>
+            <p>فرم سفارش آنلاین محصولات</p>
+        </div>
+        <div class="form-body">
+            <form id="orderForm">
+                <div class="section">
+                    <h2 class="section-title">اطلاعات ثبت‌کننده سفارش</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">نام و نام خانوادگی <span class="required">*</span></label>
+                            <input type="text" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeName">نام فروشگاه <span class="required">*</span></label>
+                            <input type="text" id="storeName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">شهر <span class="required">*</span></label>
+                            <input type="text" id="city" required placeholder="نام شهر خود را بنویسید">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">تلفن تماس جهت هماهنگی <span class="required">*</span></label>
+                            <input type="tel" id="phone" required placeholder="0912xxxxxxx">
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">🚚 نام باربری</h2>
+                    <div class="form-group">
+                        <label for="cargoType">نام باربری <span class="required">*</span></label>
+                        <input type="text" id="cargoType" required placeholder="نام باربری را بنویسید">
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">🖌️ محصولات موردنظر <span class="required">*</span></h2>
+                    <div id="productList">
+                        <div class="product-row">
+                            <select class="product-cat" onchange="updateSizes(this)">
+                                <option value="">انتخاب محصول...</option>
+                                <optgroup label="🖌️ قلمو گرد">
+                                    <option value="g1100">سری 1100 - گرد دسته کوتاه</option>
+                                    <option value="g1010">سری 1010 - گرد دسته کوتاه</option>
+                                    <option value="g1000">سری 1000 - گرد دسته بلند</option>
+                                    <option value="g3000">سری 3000 - گرد دسته بلند گلد</option>
+                                </optgroup>
+                                <optgroup label="🖌️ قلمو تخت">
+                                    <option value="g2200">سری 2200 - تخت دسته بلند</option>
+                                    <option value="g2000">سری 2000 - تخت دسته بلند</option>
+                                    <option value="g4000">سری 4000 - تخت دسته بلند گلد</option>
+                                    <option value="g2020">سری 2020 - تخت دسته بلند</option>
+                                    <option value="g2050">سری 2050 - تخت مو زبر</option>
+                                    <option value="g2060">سری 2060 - تخت مو نرم طبیعی</option>
+                                    <option value="g3050">سری 3050 - تخت مو طبیعی</option>
+                                    <option value="g3010">سری 3010 - تخت زبان گربه‌ای</option>
+                                    <option value="g2030">سری 2030 - تخت اینچی</option>
+                                    <option value="g2040">سری 2040 - سر کج دسته کوتاه</option>
+                                </optgroup>
+                                <optgroup label="🖌️ قلمو زمینه، چتری و خاص">
+                                    <option value="g2010">سری 2010 - زمینه مو نرم</option>
+                                    <option value="g2015">سری 2015 - زمینه مو زبر طبیعی</option>
+                                    <option value="g2012">سری 2012 - زمینه مو نرم</option>
+                                    <option value="g3020">سری 3020 - چتری مو زبر</option>
+                                    <option value="g3025">سری 3025 - چتری مو نرم</option>
+                                    <option value="g1020">سری 1020 - شاخه‌زنی</option>
+                                    <option value="g3030">سری 3030 - شمشیری</option>
+                                    <option value="g800">سری 800 - ماکویی</option>
+                                    <option value="g1035">سری 1035 - حرفه‌ای تذهیب</option>
+                                    <option value="g500">سری 500 - محو کن توپی</option>
+                                    <option value="g600">سری 600 - محو کن توپی</option>
+                                    <option value="g700">سری 700 - محو کن توپی</option>
+                                    <option value="gstu">ست دانش‌آموزی اعلاء</option>
+                                </optgroup>
+                                <optgroup label="🧽 کاردک">
+                                    <option value="ckardak">کاردک حرفه‌ای</option>
+                                </optgroup>
+                                <optgroup label="🖊️ سایر نوشت‌افزارها">
+                                    <option value="rnoqre">روان‌نویس نقره‌ای</option>
+                                    <option value="rtala">روان‌نویس طلایی</option>
+                                    <option value="rsefid">روان‌نویس سفید</option>
+                                    <option value="khat1">قلم خطاطی</option>
+                                    <option value="rap003">راپید</option>
+                                    <option value="brush">قلم براش</option>
+                                </optgroup>
+                                <optgroup label="🎨 سایر ملزومات">
+                                    <option value="spaye">سه‌پایه فلزی ساده</option>
+                                    <option value="palet">پالت کاغذی یکبارمصرف</option>
+                                    <option value="kiftabi">کیف قلمو چرم طبیعی</option>
+                                    <option value="kifmasnui">کیف قلمو چرم مصنوعی</option>
+                                    <option value="admak14">آدمک چوبی</option>
+                                    <option value="figor18">فیگور دست</option>
+                                </optgroup>
+                            </select>
+                            <select class="product-size" required>
+                                <option value="">انتخاب سایز...</option>
+                            </select>
+                            <input type="number" class="quantity" min="1" placeholder="تعداد بسته" required>
+                            <button type="button" class="btn-remove" onclick="removeRow(this)" title="حذف این محصول">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
+                                    <path d="M9 9h2v8H9zM13 9h2v8h-2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addRow()">➕ افزودن محصول دیگر</button>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">📝 توضیحات تکمیلی <span class="optional">(اختیاری)</span></h2>
+                    <div class="form-group">
+                        <label for="notes">لطفاً اگر نکته یا توضیح خاصی دارید، اینجا بنویسید</label>
+                        <textarea id="notes"></textarea>
+                    </div>
+                </div>
+                <button type="button" class="btn-preview" onclick="showPreview()">👁️ پیش‌نمایش سفارش</button>
+                <button type="submit" class="btn-submit">📨 ثبت سفارش</button>
+                <div id="message"></div>
+            </form>
+        </div>
+        <div class="footer">
+            <p>© ۱۴۰۴ پارس آرتیست | تمامی حقوق محفوظ است</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="previewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>👁️ پیش‌نمایش سفارش شما</h3>
+                <button class="modal-close" onclick="closePreview()">✕ بستن</button>
+            </div>
+            <div class="modal-body">
+                <div id="previewContent"></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-print no-print" onclick="printOrder()">🖨️ چاپ / دریافت PDF سفارش</button>
+                    <button type="button" class="btn-submit" onclick="submitOrder()">📨 تأیید و ثبت سفارش</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="thanksModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>✔️ ثبت سفارش</h3>
+                <button class="modal-close" onclick="closeThanks()">✕ بستن</button>
+            </div>
+            <div class="modal-body">
+                <div class="thanks-modal">
+                    <div class="thanks-icon">💐</div>
+                    <div class="thanks-title">مشتری گرامی</div>
+                    <div class="thanks-text">
+                        از اعتماد و خرید شما سپاسگزاریم.<br>
+                        سفارش شما با موفقیت ثبت شد و به‌زودی توسط کارشناسان ما بررسی و برای هماهنگی با شما تماس گرفته خواهد شد.<br>
+                        امیدواریم انتخاب شما سبب خرسندی و رضایت شما باشد.
+                    </div>
+                    <div class="thanks-date">📅 تاریخ ثبت سفارش: <span id="thanksDate"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="printArea" class="print-area" style="display:none;"></div>
+
+    <script>
+        var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDpexW2hBtkn4iFZgewVYcRb4ffMNo-FXUh1ZB1AhkSmE7mxfPnPHmpPy3rbMCKl2r/exec';
+
+        var noSizeNeeded = ['rnoqre','rtala','rsefid','brush','spaye','palet','kiftabi','kifmasnui'];
+
+        function addSetSize(arr) {
+            if (arr.indexOf('ست') === -1) arr.push('ست');
+            return arr;
+        }
+
+        var sizeMap = {
+            'g1100': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']),
+            'g1010': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','12','14','16','18','20','22','24']),
+            'g1000': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','12','14','16','18','20','22','24']),
+            'g3000': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','12','14','16','18','20','22','24']),
+            'g2200': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','20','22','24']),
+            'g2000': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','20','22','24']),
+            'g4000': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','20','22','24']),
+            'g2020': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','20','22','24']),
+            'g2050': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','18','20','22','24']),
+            'g2060': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','12','14','16','18','20','22','24']),
+            'g3050': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','18','20','22','24']),
+            'g3010': addSetSize(['0','1','2','3','4','5','6','7','8','9','10','12','14','16','18','20','22','24']),
+            'g2030': addSetSize(['4/1','8/1','2/1','4/3','8/3']),
+            'g2040': addSetSize(['4/1','8/1','2/1','4/3','8/3']),
+            'g2010': ['2','3','4','5','6'],
+            'g2015': ['2','3','4','5','6'],
+            'g2012': ['2','3','4','5','6','7','8'],
+            'g3020': ['0','2','4','6','8','10','12'],
+            'g3025': ['0','2','4','6','8','10','12'],
+            'g1020': ['0','0/2','0/3','1','2'],
+            'g3030': ['2/1','4/1','8/1'],
+            'g800': ['20','30','40','50','60'],
+            'g1035': ['0/4','0/3','0/2','0','1','2'],
+            'g500': ['1','2','3','4'],
+            'g600': ['1','2','3','4'],
+            'g700': ['1','2'],
+            'gstu': ['4 عددی','8 عددی','12 عددی'],
+            'ckardak': ['1','2','3','4','5','6','7','8','9','13','14','17','18','19','20','21','22','23','31','32','33','34','35'],
+            'khat1': ['شماره 1','شماره 2','شماره 3'],
+            'rap003': ['003','005','01','02','03','04','05','06','07','08','10'],
+            'admak14': ['14 سانت','20 سانت','30 سانت'],
+            'figor18': ['18 سانت','24 سانت','30 سانت']
+        };
+
+        var nameMap = {
+            'g1100': 'قلمو سری 1100 گرد دسته کوتاه',
+            'g1010': 'قلمو سری 1010 گرد دسته کوتاه',
+            'g1000': 'قلمو سری 1000 گرد دسته بلند',
+            'g3000': 'قلمو سری 3000 گرد دسته بلند گلد',
+            'g2200': 'قلمو سری 2200 تخت دسته بلند',
+            'g2000': 'قلمو سری 2000 تخت دسته بلند',
+            'g4000': 'قلمو سری 4000 تخت دسته بلند گلد',
+            'g2020': 'قلمو سری 2020 تخت دسته بلند',
+            'g2050': 'قلمو سری 2050 تخت مو زبر',
+            'g2060': 'قلمو سری 2060 تخت مو نرم طبیعی',
+            'g3050': 'قلمو سری 3050 تخت مو طبیعی',
+            'g3010': 'قلمو سری 3010 تخت زبان گربه‌ای',
+            'g2030': 'قلمو سری 2030 تخت اینچی',
+            'g2040': 'قلمو سری 2040 سر کج دسته کوتاه',
+            'g2010': 'قلمو سری 2010 زمینه مو نرم',
+            'g2015': 'قلمو سری 2015 زمینه مو زبر طبیعی',
+            'g2012': 'قلمو سری 2012 زمینه مو نرم',
+            'g3020': 'قلمو سری 3020 چتری مو زبر',
+            'g3025': 'قلمو سری 3025 چتری مو نرم',
+            'g1020': 'قلمو سری 1020 شاخه‌زنی',
+            'g3030': 'قلمو سری 3030 شمشیری',
+            'g800': 'قلمو سری 800 ماکویی',
+            'g1035': 'قلمو سری 1035 حرفه‌ای تذهیب',
+            'g500': 'قلمو سری 500 محو کن توپی',
+            'g600': 'قلمو سری 600 محو کن توپی',
+            'g700': 'قلمو سری 700 محو کن توپی',
+            'gstu': 'قلمو ست دانش‌آموزی اعلاء',
+            'ckardak': 'کاردک حرفه‌ای',
+            'rnoqre': 'روان‌نویس نقره‌ای',
+            'rtala': 'روان‌نویس طلایی',
+            'rsefid': 'روان‌نویس سفید',
+            'khat1': 'قلم خطاطی',
+            'rap003': 'راپید یکبار مصرف',
+            'brush': 'قلم براش',
+            'spaye': 'سه‌پایه فلزی ساده',
+            'palet': 'پالت کاغذی یکبارمصرف',
+            'kiftabi': 'کیف قلمو چرم طبیعی',
+            'kifmasnui': 'کیف قلمو چرم مصنوعی',
+            'admak14': 'آدمک چوبی',
+            'figor18': 'فیگور دست'
+        };
+
+        function toPersianDate() {
+            var d = new Date();
+            var greg = new Date(d.getTime() + (d.getTimezoneOffset() * 60000) + (3.5 * 3600000));
+            var gY = greg.getFullYear();
+            var gM = greg.getMonth() + 1;
+            var gD = greg.getDate();
+            var jy;
+            if (gY > 1600) { jy = 979; gY -= 1600; } else { jy = 0; gY -= 621; }
+            var gDays = (365 * gY) + Math.floor((gY + 3) / 4) - Math.floor((gY + 99) / 100) + Math.floor((gY + 399) / 400) - 80 + gD + Math.floor((153 * gM - 2) / 5);
+            var jDays = gDays - 79;
+            var jNp = Math.floor(jDays / 12053);
+            jDays %= 12053;
+            jy += 33 * jNp + 4 * Math.floor(jDays / 1461);
+            jDays %= 1461;
+            if (jDays > 365) { jy += Math.floor((jDays - 1) / 365); jDays = (jDays - 1) % 365; }
+            var jm, jd;
+            if (jDays < 186) { jm = 1 + Math.floor(jDays / 31); jd = 1 + (jDays % 31); }
+            else { jm = 7 + Math.floor((jDays - 186) / 30); jd = 1 + ((jDays - 186) % 30); }
+            var monthNames = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+            function toFa(n) { return String(n).replace(/\d/g, function(x) { return '۰۱۲۳۴۵۶۷۸۹'[x]; }); }
+            return toFa(jd) + ' ' + monthNames[jm-1] + ' ' + toFa(jy);
+        }
+
+        function updateSizes(select) {
+            var row = select.closest('.product-row');
+            var sizeSelect = row.querySelector('.product-size');
+            if (noSizeNeeded.indexOf(select.value) !== -1) {
+                sizeSelect.disabled = true;
+                sizeSelect.innerHTML = '<option value="">—</option>';
+                sizeSelect.value = '';
+            } else {
+                sizeSelect.disabled = false;
+                sizeSelect.innerHTML = '<option value="">انتخاب سایز...</option>';
+                var sizes = sizeMap[select.value];
+                if (sizes) {
+                    sizes.forEach(function(s) {
+                        var opt = document.createElement('option');
+                        opt.value = s;
+                        opt.textContent = s;
+                        sizeSelect.appendChild(opt);
+                    });
+                }
+            }
+        }
+
+        function addRow() {
+            var list = document.getElementById('productList');
+            var firstRow = list.querySelector('.product-row');
+            var newRow = firstRow.cloneNode(true);
+            newRow.querySelectorAll('select').forEach(function(s) { s.selectedIndex = 0; });
+            var sizeSel = newRow.querySelector('.product-size');
+            sizeSel.disabled = false;
+            sizeSel.innerHTML = '<option value="">انتخاب سایز...</option>';
+            newRow.querySelector('.quantity').value = '';
+            list.appendChild(newRow);
+        }
+
+        function removeRow(btn) {
+            var list = document.getElementById('productList');
+            var rows = list.querySelectorAll('.product-row');
+            if (rows.length > 1) btn.closest('.product-row').remove();
+            else alert('حداقل یک محصول باید وجود داشته باشد.');
+        }
+
+        function collectOrderData() {
+            var fullName = document.getElementById('fullName').value;
+            var storeName = document.getElementById('storeName').value;
+            var city = document.getElementById('city').value;
+            var phone = document.getElementById('phone').value;
+            var cargoType = document.getElementById('cargoType').value;
+            var notes = document.getElementById('notes').value;
+            var rows = document.querySelectorAll('.product-row');
+            var products = [];
+            var productsText = [];
+            rows.forEach(function(row) {
+                var cat = row.querySelector('.product-cat');
+                var size = row.querySelector('.product-size');
+                var qty = row.querySelector('.quantity');
+                if (cat.value && (size.disabled || size.value) && qty.value) {
+                    var name = nameMap[cat.value] || cat.value;
+                    var sizeTxt = size.disabled ? '' : ' سایز: ' + size.value;
+                    var productName = name + sizeTxt;
+                    products.push({ name: productName, qty: qty.value });
+                    productsText.push(productName + ' (تعداد: ' + qty.value + ')');
+                }
+            });
+            return { fullName: fullName, storeName: storeName, city: city, phone: phone, cargoType: cargoType, notes: notes, products: products, productsText: productsText.join('\n') };
+        }
+
+        function showPreview() {
+            var data = collectOrderData();
+            if (!data.fullName || !data.storeName || !data.city || !data.phone || !data.cargoType) {
+                showMessage('لطفاً تمام فیلدهای الزامی را تکمیل کنید.', 'error');
+                return;
+            }
+            if (data.products.length === 0) {
+                showMessage('حداقل یک محصول با سایز و تعداد مشخص کنید.', 'error');
+                return;
+            }
+            var html = '';
+            html += '<div class="preview-info">';
+            html += '<p><strong>👤 نام:</strong> ' + data.fullName + '</p>';
+            html += '<p><strong>🏪 فروشگاه:</strong> ' + data.storeName + '</p>';
+            html += '<p><strong>🏙️ شهر:</strong> ' + data.city + '</p>';
+            html += '<p><strong>📞 تلفن:</strong> ' + data.phone + '</p>';
+            html += '<p><strong>🚚 باربری:</strong> ' + data.cargoType + '</p>';
+            if (data.notes) {
+                html += '<p><strong>📝 توضیحات:</strong> ' + data.notes + '</p>';
+            }
+            html += '</div>';
+            html += '<div class="preview-products">';
+            html += '<h4>🖌️ محصولات (' + data.products.length + ' قلم)</h4>';
+            data.products.forEach(function(p) {
+                html += '<div class="preview-item">';
+                html += '<span class="item-name">' + p.name + '</span>';
+                html += '<span class="item-qty">' + p.qty + ' بسته</span>';
+                html += '</div>';
+            });
+            html += '</div>';
+            window._printData = data;
+            document.getElementById('previewContent').innerHTML = html;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
+        function closeThanks() { document.getElementById('thanksModal').classList.remove('active'); }
+
+        function printOrder() {
+            var data = window._printData;
+            if (!data) return;
+            var persianDate = toPersianDate();
+            var printHtml = '';
+            printHtml += '<h2 style="text-align:center; margin-bottom:10px;">🖌️ پارس آرتیست</h2>';
+            printHtml += '<p style="text-align:center; margin-bottom:20px;"><strong>فرم سفارش</strong></p>';
+            printHtml += '<p><strong>📅 تاریخ ثبت:</strong> ' + persianDate + '</p>';
+            printHtml += '<p><strong>👤 نام:</strong> ' + data.fullName + '</p>';
+            printHtml += '<p><strong>🏪 فروشگاه:</strong> ' + data.storeName + '</p>';
+            printHtml += '<p><strong>🏙️ شهر:</strong> ' + data.city + '</p>';
+            printHtml += '<p><strong>📞 تلفن:</strong> ' + data.phone + '</p>';
+            printHtml += '<p><strong>🚚 باربری:</strong> ' + data.cargoType + '</p>';
+            if (data.notes) {
+                printHtml += '<p><strong>📝 توضیحات:</strong> ' + data.notes + '</p>';
+            }
+            printHtml += '<hr style="margin:16px 0;">';
+            printHtml += '<h4>🖌️ محصولات (' + data.products.length + ' قلم)</h4>';
+            data.products.forEach(function(p) {
+                printHtml += '<p style="margin:6px 0;">- ' + p.name + ' — تعداد: ' + p.qty + ' بسته</p>';
+            });
+            var area = document.getElementById('printArea');
+            area.innerHTML = printHtml;
+            area.style.display = 'block';
+            window.print();
+            area.style.display = 'none';
+        }
+
+        function submitOrder() {
+            var data = collectOrderData();
+            var persianDate = toPersianDate();
+            var payload = {
+                fullName: data.fullName,
+                storeName: data.storeName,
+                city: data.city,
+                phone: data.phone,
+                cargoType: data.cargoType,
+                notes: data.notes,
+                productsText: data.productsText
+            };
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }).then(function(res) {
+                closePreview();
+                document.getElementById('thanksDate').textContent = persianDate;
+                document.getElementById('thanksModal').classList.add('active');
+                document.getElementById('orderForm').reset();
+                var list = document.getElementById('productList');
+                var rows = list.querySelectorAll('.product-row');
+                for (var i = rows.length - 1; i > 0; i--) rows[i].remove();
+                list.querySelector('.product-size').disabled = false;
+                list.querySelector('.product-size').innerHTML = '<option value="">انتخاب سایز...</option>';
+            }).catch(function() {
+                showMessage('⚠️ خطا در اتصال. مجدداً تلاش کنید.', 'error');
+            });
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showPreview();
+        });
+
+        function showMessage(text, type) {
+            var msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+        }
+    </script>
+</body>
+</html>
